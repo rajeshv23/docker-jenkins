@@ -9,18 +9,7 @@ pipeline{
         stage("Build"){
             steps{
                 bat "mvn clean package"
-            }
-            post{
-                always{
-                    echo "========always========"
-                }
-                success{
-                    echo 'Now Archiving...'
-                    archiveArtifacts artifacts: '**/target/*.war'
-                }
-                failure{
-                    echo "========A execution failed========"
-                }
+                bat "docker build . -t tomcatwebapp:${env.BUILD_ID}"
             }
         }
     }
